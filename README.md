@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="media/logo.png" alt="reamake" width="200"/>
+    <img src="media/logo nvim.png" alt="reamake.nvim" width="200"/>
 </p>
   
 <p align="center">
@@ -22,7 +22,15 @@
   
 ## Information
 
-This neovim plugin is for adding syntax highlighting and indenting to reamake template files. For more information on how the language is used, inspect Reamake's [main repo](https://github.com/simon-danielsson/reamake)
+This plugin adds neovim support for `.reamake` template files.  
+For more information on how the language is used, visit the [main repo](https://github.com/simon-danielsson/reamake).  
+  
+### Features
+  
+- Filetype detection  
+- Syntax highlighting  
+- Indentation  
+- Ftplugin defaults  
   
 ---
 <div id="install"></div>
