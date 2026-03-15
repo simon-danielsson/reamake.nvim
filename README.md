@@ -3,8 +3,7 @@
 </p>
   
 <p align="center">
-  <em>A CLI application built for quickly creating folder structures and preparing<br>
-        stems for mixing, mastering and production projects in <a href="https://www.reaper.fm/">Cockos Reaper</a></em>
+  <em>Syntax highlighting and indenting rules for the template scripting<br>language used by <a href="https://github.com/simon-danielsson/reamake">Reamake</a></em>
 </p>
   
 <p align="center">
