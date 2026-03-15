@@ -1,1 +1,2 @@
+-- *brakoll - d: update readme with relevant information, p: 100, t: docs, s: closed
 -- not implemented anything yet
