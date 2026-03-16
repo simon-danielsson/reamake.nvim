@@ -1,32 +1,70 @@
-if exists("b:current_syntax")
+if exists('b:current_syntax')
     finish
 endif
 
-syntax match reamakeComment /#.*/
-syntax match reamakeSection /^\s*\zs\(variables\|settings\|hierarchy\)\ze\s*\[/
-syntax match reamakeBracket /[\[\]{}]/
-syntax keyword reamakeKeyword variables settings hierarchy
-syntax match reamakeIdentifier /^\s*\zs[A-Za-z_][A-Za-z0-9_-]*\ze\s*:/
-syntax match reamakeType /\v:\s*\zs(string|file|folder)\ze/
-syntax match reamakeAssign /=/
+syntax case match
+
+" Comments
+syntax match reamakeComment /#.*/ contains=reamakeTodo
+syntax keyword reamakeTodo TODO FIXME NOTE XXX contained
+
+" Strings
+syntax region reamakeString start=/"/ skip=/\\"/ end=/"/ contains=reamakeVarRef,reamakeBuiltinVar
+
+" Escapes
+syntax match reamakeEscape /\\./ contained containedin=reamakeString
+
+" Booleans
 syntax keyword reamakeBoolean true false
-syntax match reamakeConstant /\v:\s*\zs(EU|US|ISO)\ze/
-syntax region reamakeString start=/"/ skip=/\\"/ end=/"/
-syntax match reamakeVariable /\$\h\w*/
-syntax match reamakeVariable /\${[^}]\+}/
-syntax match reamakeNumber /\v\<\d+(\.\d+)?\>/
 
-highlight default link reamakeComment Comment
-highlight default link reamakeSection Keyword
-highlight default link reamakeBracket Delimiter
-highlight default link reamakeKeyword Keyword
-highlight default link reamakeIdentifier Identifier
-highlight default link reamakeType Type
-highlight default link reamakeAssign Operator
-highlight default link reamakeBoolean Boolean
-highlight default link reamakeConstant Constant
-highlight default link reamakeString String
-highlight default link reamakeVariable Special
-highlight default link reamakeNumber Number
+" Top-level section keywords
+syntax keyword reamakeSection variables settings hierarchy
 
-let b:current_syntax = "reamake"
+" Data types
+syntax keyword reamakeType string file folder
+
+" Built-in variable names in declarations/comments/strings
+syntax keyword reamakeBuiltin date
+syntax match reamakeBuiltinVar /\$date\>/ contained containedin=reamakeString
+
+" Variable references like $client, $project
+syntax match reamakeVarRef /\$[A-Za-z_][A-Za-z0-9_]*/ contained containedin=reamakeString
+
+" Declaration keys before :
+syntax match reamakeIdentifier /^\s*[A-Za-z_][A-Za-z0-9_]*\ze\s*:/
+
+" Settings keys before :
+syntax match reamakeSettingKey /^\s*[A-Za-z_][A-Za-z0-9_]*\ze\s*:/
+
+" Assignment operator
+syntax match reamakeOperator /[:=]/
+
+" Delimiters / block chars
+syntax match reamakeDelimiter /[\[\]{}]/
+
+" Hierarchy item keywords at line start
+syntax keyword reamakeNode folder file rpp stems
+
+" Numbers / dates inside strings aren't parsed specially, but this catches bare numerics
+syntax match reamakeNumber /\v<\d+>/
+
+" Paths are just strings in this language, so strings already cover them.
+
+hi def link reamakeComment       Comment
+hi def link reamakeTodo          Todo
+hi def link reamakeString        String
+hi def link reamakeEscape        SpecialChar
+hi def link reamakeBoolean       Boolean
+hi def link reamakeSection       Keyword
+hi def link reamakeType          Type
+hi def link reamakeBuiltin       Special
+hi def link reamakeBuiltinVar    Special
+hi def link reamakeVarRef        Identifier
+hi def link reamakeIdentifier    Identifier
+hi def link reamakeSettingKey    Identifier
+hi def link reamakeOperator      Operator
+hi def link reamakeDelimiter     Delimiter
+hi def link reamakeNode          Statement
+hi def link reamakeNumber        Number
+
+let b:current_syntax = 'reamake'

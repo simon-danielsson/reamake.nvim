@@ -1,34 +1,43 @@
-if exists("b:did_indent")
+if exists('b:did_indent')
     finish
 endif
 let b:did_indent = 1
 
-setlocal indentexpr=GetReamakeIndent(v:lnum)
-setlocal indentkeys=o,O,*<Return>,],}
+setlocal indentexpr=GetReamakeIndent()
+setlocal indentkeys=o,O,0],0},<:>
 
-if exists("*GetReamakeIndent")
+if exists('*GetReamakeIndent')
     finish
 endif
 
-function! GetReamakeIndent(lnum) abort
-    let prevlnum = prevnonblank(a:lnum - 1)
-    if prevlnum == 0
+function! GetReamakeIndent() abort
+    let l:shift = get(g:, 'reamake_indent_width', &shiftwidth)
+
+    " Current line
+    let l:cline = getline(v:lnum)
+
+    " Find previous nonblank line
+    let l:prevlnum = prevnonblank(v:lnum - 1)
+    if l:prevlnum == 0
         return 0
     endif
 
-    let prevline = getline(prevlnum)
-    let thisline = getline(a:lnum)
-    let ind = indent(prevlnum)
+    let l:prevline = getline(l:prevlnum)
+    let l:ind = indent(l:prevlnum)
 
-    " Dedent closing ] or }
-    if thisline =~ '^\s*[]}]'
-        let ind -= shiftwidth()
+    " Dedent current line if it starts with a closing token
+    if l:cline =~# '^\s*[]}]'
+        let l:ind -= l:shift
     endif
 
-    " Indent after opening [ or {
-        if prevline =~ '[\[{]\s*$'
-            let ind += shiftwidth()
-        endif
+    " Increase indent after lines opening a block
+    if l:prevline =~# '\[\s*$'
+        let l:ind += l:shift
+    endif
+    if l:prevline =~# '{\s*$'
+        let l:ind += l:shift
+    endif
 
-        return ind < 0 ? 0 : ind
-    endfunction
+    " Never go below 0
+    return max([l:ind, 0])
+endfunction
