@@ -32,6 +32,9 @@ syntax match reamakeIdentifier /^\s*[A-Za-z_][A-Za-z0-9_]*\ze\s*:/
 " settings keys before colon
 syntax match reamakeSettingKey /^\s*[A-Za-z_][A-Za-z0-9_]*\ze\s*:/
 
+" identifiers containing 'folder'
+syntax match reamakeFolderLike /\<[A-Za-z_][A-Za-z0-9_]*folder[A-Za-z0-9_]*\>/
+
 " assignment operator
 syntax match reamakeOperator /[:=]/
 
@@ -51,6 +54,7 @@ hi def link reamakeType          Type
 hi def link reamakeVarRef        Identifier
 hi def link reamakeIdentifier    Identifier
 hi def link reamakeSettingKey    Identifier
+hi def link reamakeFolderLike    Type
 hi def link reamakeOperator      Operator
 hi def link reamakeDelimiter     Delimiter
 hi def link reamakeNumber        Number
