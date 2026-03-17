@@ -1,4 +1,5 @@
 -- *brakoll - d: update readme with relevant information, p: 100, t: docs, s: closed
 -- *brakoll - d: reformat readme and update logo, p: 100, t: docs, s: closed
 -- *brakoll - d: update to cover new syntax, p: 100, t: feature, s: closed
+-- *brakoll - d: make variable and type colors consistent, p: 100, t: fix, s: closed
 -- not implemented anything yet
